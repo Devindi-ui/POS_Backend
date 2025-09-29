@@ -1,7 +1,7 @@
 const itemModel = require('../model/itemModel');
 
 const itemController = {
-    createItem: (req, res) => {
+    createItem: async(req, res) => {
         const{category_id, name, desc, unit_price, img_url, status} = req.body;
 
         try {
@@ -9,7 +9,7 @@ const itemController = {
                 return res.status(400).json({message: 'All parameters are required'});
             }
 
-            itemModel.create(
+            await itemModel.create(
                 {
                     category_id: category_id,
                     name: name,
@@ -33,9 +33,9 @@ const itemController = {
         }
     },
 
-    getAllItems: (req, res) => {
+    getAllItems: async (req, res) => {
         try {
-            itemModel.findAll(
+            await itemModel.findAll(
                 (err,result) => {
                     if(err){
                         return res.status(500). 
@@ -47,6 +47,33 @@ const itemController = {
                     }
                     res.status(200). 
                     json({message: 'Items found successfully', data: result})
+                }
+            )
+        } catch (error) {
+            return res.status(500).
+            json({message: 'Server error', error: error.message});
+        }
+    },
+
+    getItemByName: async(req, res) => {
+        const {name} = req.params
+        try {
+            if(!name){
+                return res.status(400). 
+                json({message: 'Item name is required'});
+            }
+            await itemModel.findByItemName(name,
+                (err, result) => {
+                    if(err) {
+                        return res.status(500). 
+                        json({message: 'Database error', error: err.message});
+                    }
+                    if(result.length === 0){
+                        return res.status(404). 
+                        json({message: 'No item found'});
+                    }
+                    res.status(200). 
+                    json({message: 'Item found successfully', data: result})
                 }
             )
         } catch (error) {

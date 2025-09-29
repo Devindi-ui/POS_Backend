@@ -18,6 +18,11 @@ class Item{
         const sql = 'SELECT name, unit_price, category_id, category_name FROM item INNER JOIN category ON item.category_id = category.id';
         db.execute(sql,result);
     }
+
+    findByItemName = (name, result) => {
+        const sql = 'SELECT * FROM item WHERE name = ?';
+        db.execute(sql, [name], result);
+    }
 }
 
 module.exports = new Item(); //bcz this is not static function
