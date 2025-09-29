@@ -31,6 +31,28 @@ const itemController = {
             return res.status(500).
             json({message: 'Server error', error: error.message});
         }
+    },
+
+    getAllItems: (req, res) => {
+        try {
+            itemModel.findAll(
+                (err,result) => {
+                    if(err){
+                        return res.status(500). 
+                        json({message: 'Database error', error: err.message});
+                    }
+                    if(result.length === 0){
+                        return res.status(404). 
+                        json({message: 'No items found'});
+                    }
+                    res.status(200). 
+                    json({message: 'Items found successfully', data: result})
+                }
+            )
+        } catch (error) {
+            return res.status(500).
+            json({message: 'Server error', error: error.message});
+        }
     }
 }
 

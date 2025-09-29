@@ -16,6 +16,7 @@ class Item{
 
     findAll = (result) => {
         const sql = 'SELECT name, unit_price, category_id, category_name FROM item INNER JOIN category ON item.category_id = category.id';
+        db.execute(sql,result);
     }
 }
 
