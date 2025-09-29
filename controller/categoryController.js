@@ -1,7 +1,7 @@
 const categoryModel = require('../model/categoryModel');
 
 const categoryController = {  //Async keyword tyena line ek execute wenkl anit ewa execute wennh
-    createCategory: async(req, res) => {
+    createCategory: (req, res) => {
         try {
             const {category_name} = req.body;
             categoryModel.create(

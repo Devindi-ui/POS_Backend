@@ -8,4 +8,4 @@ class Category {
     }
 }
 
-module.exports = new Category(); //bcz Async funtion
+module.exports = new Category(); //static function ekk newei nisa direct cl krnn bari nisa 'new'
